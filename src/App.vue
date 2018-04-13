@@ -1,24 +1,17 @@
 <template>
   <div id="app">
-    {{totalPrice}}
-    <apple></apple>
-    <banana></banana>
-   
+
   </div>
 </template>
 
 <script>
-import Apple from './components/apple'
-import Banana from './components/banana'
 export default {
-  components:{
-    Apple,Banana
-  },
-  computed:{
-    totalPrice(){
-      return this.$store.getters.getTotal
+  data () {
+    return {
+      
     }
   }
+
 }
 </script>
 

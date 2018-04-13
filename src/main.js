@@ -3,46 +3,49 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
-// import Vuex from 'vuex'
 import App from './App'
 import Layout from './components/layout'
 import IndexPage from './pages/index'
+import DetailPage from './pages/detail'
+import DetailAnaPage from './pages/detail/analysis'
+import DetailCouPage from './pages/detail/count'
+import DetailForPage from './pages/detail/forecast'
+import DetailPubPage from './pages/detail/publish'
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
-// Vue.use(Vuex)
 
-// let store=new Vuex.Store({
-// 	state:{
-// 		totalPrice:0
-// 	},
-// 	getters:{
-// 		getTotal(state){
-// 			return state.totalPrice;
-// 		}
-// 	},
-// 	mutations:{
-// 		increment(state,price){
-// 			state.totalPrice+=price;
-// 		},
-// 		decrement(state,price){
-// 			state.totalPrice-=price;
-// 		}
-// 	},
-// 	actions:{
-// 		increase(context,price){
-// 			context.commit('increment',price)
-// 		},
-// 		decrease(context,price){
-// 			context.commit('decrement',price)
-// 		}
-// 	}
-// })
 
 const router=new VueRouter({
 	mode:"history",
 	routes:[
-		{path:"/",component:IndexPage}
+		{
+			path:"/",
+			component:IndexPage
+		},
+		{
+			path:"/detail",
+			component:DetailPage,
+			redirect:"/detail/analysis",
+			children:[
+				{
+					path:"analysis",
+					component:DetailAnaPage
+				},
+				{
+					path:"count",
+					component:DetailCouPage
+				},
+				{
+					path:"forecast",
+					component:DetailForPage
+				},
+				{
+					path:"publish",
+					component:DetailPubPage
+				}
+			]
+		}
 	]
 	
 })
