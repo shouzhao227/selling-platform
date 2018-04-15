@@ -11,7 +11,9 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/api': 'http://localhost:3000'
+    },
+    proxyTable: {
+        '/api/': 'http://localhost:8081'
     },
 
     // Various Dev Server settings

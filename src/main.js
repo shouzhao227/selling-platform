@@ -7,6 +7,7 @@ import App from './App'
 import Layout from './components/layout'
 import IndexPage from './pages/index'
 import DetailPage from './pages/detail'
+import OrderListPage from './pages/orderList'
 import DetailAnaPage from './pages/detail/analysis'
 import DetailCouPage from './pages/detail/count'
 import DetailForPage from './pages/detail/forecast'
@@ -22,6 +23,10 @@ const router=new VueRouter({
 		{
 			path:"/",
 			component:IndexPage
+		},
+		{
+			path: '/orderList',
+			component: OrderListPage
 		},
 		{
 			path:"/detail",
@@ -46,6 +51,7 @@ const router=new VueRouter({
 				}
 			]
 		}
+
 	]
 	
 })

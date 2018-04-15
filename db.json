@@ -28,7 +28,7 @@
   "getPrice": {
     "amount": 678
   },
-  "createOrder": {
+   "createOrder": {
     "orderId": "6djk979"
   },
   "getOrderList": {

@@ -9,20 +9,60 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+var express = require('express')
 
-const jsonServer = require('json-server')
-const apiServer = jsonServer.create()
-const apiRouter = jsonServer.router('db.json')
-const middlewares = jsonServer.defaults()
+//const jsonServer = require('json-server')
+// const apiServer = jsonServer.create()
+// const apiRouter = jsonServer.router('db.json')
+// const middlewares = jsonServer.defaults()
 
-apiServer.use(middlewares)
-apiServer.use('/api',apiRouter)
-apiServer.listen(3000, () => {
-  console.log('JSON Server is running')
+// apiServer.use(middlewares)
+// apiServer.use('/api',apiRouter)
+// apiServer.listen(3000, () => {
+//   console.log('JSON Server is running')
+// })
+
+var apiServer = express()
+var bodyParser = require('body-parser')
+apiServer.use(bodyParser.urlencoded({ extended: true }))
+apiServer.use(bodyParser.json())
+var apiRouter = express.Router()
+var fs = require('fs')
+apiRouter.get('/',function(req,res){
+  res.json({message:'hooray! welcome to our api!'})
 })
+apiRouter.route('/:apiName')
+.all(function (req, res) {
+  fs.readFile('./db.json', 'utf8', function (err, data) {
+    if (err) throw err
+    var data = JSON.parse(data)
+    if (data[req.params.apiName]) {
+      res.json(data[req.params.apiName])  
+    }
+    else {
+      res.send('no such api name')
+    }
+    
+  })
+})
+
+
+
+
+
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
+
+
+apiServer.use('/api', apiRouter);
+apiServer.listen(8081, function (err) {
+  if (err) {
+    console.log(err)
+    return
+  }
+  console.log('Listening at http://localhost:' + (8081) + '\n')
+})
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {

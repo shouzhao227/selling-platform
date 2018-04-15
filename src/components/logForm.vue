@@ -83,9 +83,8 @@ export default {
       }
       else {
         this.errorText = ''
-        this.$http.get('api/login')
+        this.$http.post('api/login')
         .then((res) => {
-          //console.log(res.body);
           this.$emit('has-log', res.body)
         }, (error) => {
           console.log(error)
