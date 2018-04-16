@@ -13,6 +13,8 @@ import DetailCouPage from './pages/detail/count'
 import DetailForPage from './pages/detail/forecast'
 import DetailPubPage from './pages/detail/publish'
 
+import store from './store'
+
 Vue.use(VueRouter)
 Vue.use(VueResource)
 
@@ -62,6 +64,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { Layout },
   template: '<Layout/>'
 })

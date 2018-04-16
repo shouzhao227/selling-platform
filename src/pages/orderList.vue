@@ -46,7 +46,7 @@ export default {
   },
   data () {
     return {
-      query: '',
+       query: '',
       productId: 0,
       startDate: '',
       endDate: '',
@@ -99,41 +99,67 @@ export default {
         }
       ],
       currentOrder: 'asc',
-      tableData: []
+      //tableData: []
+    }
+  },
+  computed:{
+    tableData(){
+      return this.$store.getters.getOrderList
     }
   },
   watch: {
     query () {
-      this.getList()
+      //this.getList()
+      this.$store.commit('updateParams',{
+        key:'query',
+        val:this.query
+      })
+      this.$store.dispatch('fetchOrderList')
+       
     }
   },
   methods: {
     productChange (obj) {
-      this.productId = obj.value
-      this.getList()
+      this.$store.commit('updateParams',{
+        key:'productId',
+        val:obj.value
+      })
+      this.$store.dispatch('fetchOrderList')
+      //this.productId = obj.value
+      //this.getList()
     },
     getStartDate (date) {
-      this.startDate = date
-      this.getList()
+      this.$store.commit('updateParams',{
+        key:'startDate',
+        val:date
+      })
+       this.$store.dispatch('fetchOrderList')
+      // this.startDate = date
+      // this.getList()
     },
     getEndDate (date) {
-      this.endDate = date
-      this.getList()
-    },
-    getList () {
-      let reqParams = {
-        query: this.query,
-        productId: this.productId,
-        startDate: this.startDate,
-        endDate: this.endDate
-      }
-      this.$http.post('/api/getOrderList', reqParams)
-      .then((res) => {
-        this.tableData = res.data.list
-      }, (err) => {
-
+       this.$store.commit('updateParams',{
+        key:'endDate',
+        val:date
       })
+        this.$store.dispatch('fetchOrderList')
+      // this.endDate = date
+      // this.getList()
     },
+    // getList () {
+    //   let reqParams = {
+    //     query: this.query,
+    //     productId: this.productId,
+    //     startDate: this.startDate,
+    //     endDate: this.endDate
+    //   }
+    //   this.$http.post('/api/getOrderList', reqParams)
+    //   .then((res) => {
+    //     this.tableData = res.data.list
+    //   }, (err) => {
+
+    //   })
+    // },
     changeOrderType (headItem) {
       this.tableHeads.map((item) => {
         item.active = false
@@ -146,11 +172,15 @@ export default {
       else if (this.currentOrder === 'desc') {
         this.currentOrder = 'asc'
       }
-      this.tableData = _.orderBy(this.tableData, headItem.key, this.currentOrder)
+       
+      //this.tableData = _.orderBy(this.tableData, headItem.key, this.currentOrder)
+      this.$store.commit('updateOrderList',(_.orderBy(this.$store.getters.getOrderList, headItem.key, this.currentOrder)))
     }
   },
   mounted () {
-    this.getList()
+    //this.getList()
+    this.$store.dispatch('fetchOrderList')
+    console.log(this.$store)
   }
 }
 </script>
